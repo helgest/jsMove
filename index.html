@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Move things with javascript</title>
+<style type="text/css">
+#arrow {
+	width: 100px;
+	height:100px;
+	background: url(arrow.svg) no-repeat 0 0;
+	background-size: 100%;
+	position:absolute;
+	-moz-transform-origin: 90px 51px;
+	-webkit-transform-origin: 90px 51px;
+	-ms-transform-origin: 90px 51px;
+	left:0px; top:0px;
+	-moz-transition-property: all;
+ 	-moz-transition-duration: 1s;
+}
+</style>
+</head>
+
+<body>
+<div id="arrow"></div>
+
+<script type="text/javascript">
+var mouseX = 0;
+var mouseY = 0;
+
+var arrow = {
+	id : document.getElementById("arrow"),
+	speed : 2,
+	originX: 90,
+	originY: 51,
+	x : 0,
+	y : 0,
+	vx : 0,
+	vy : 0
+};
+ 
+
+function init() {
+	document.addEventListener("mousemove", update, false); 
+};
+
+function update(e){
+	mouseX = e.clientX;
+	mouseY = e.clientY;
+	draw();
+}
+
+function draw(e){
+
+	/* Arrow - point at mouse cursor */
+	dx = mouseX - arrow.x - arrow.originX;
+	dy = mouseY - arrow.y - arrow.originY;
+	pointAngle = Math.atan2(dy, dx);
+	
+	// Move to follow mouse
+	//arrow.vx = Math.cos(pointAngle) * arrow.speed;
+//	arrow.vy = Math.sin(pointAngle) * arrow.speed;
+//	arrow.x += arrow.vx;
+//	arrow.y += arrow.vy;
+	if (Math.sqrt(dx*dx+dy*dy)>arrow.speed) {
+		arrow.id.style.MozTransform = "translate(" + (mouseX - arrow.originX) + "px, " + (mouseY - arrow.originY) + "px) rotate(" + pointAngle + "rad)";
+		arrow.id.style.webkitTransform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + pointAngle + "rad)";
+		arrow.id.style.msTransform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + pointAngle + "rad)";
+	}
+	//arrow.id.style.MozTransform = "rotate(" + pointAngle + "rad)";
+	
+	
+	//requestAnimFrame(draw);
+};
+
+
+
+// shim layer with setTimeout fallback
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       || 
+          window.webkitRequestAnimationFrame || 
+          window.mozRequestAnimationFrame    || 
+          window.oRequestAnimationFrame      || 
+          window.msRequestAnimationFrame     || 
+          function(/* function */ callback, /* DOMElement */ element){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
+
+init();
+
+</script>
+</body>
+</html>
+

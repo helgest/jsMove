@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Move things with javascript</title>
+<style type="text/css">
+body{
+	background:#fff;
+	overflow: hidden;
+	background-color: #6194F9;
+}
+#bee, #bee2, #bee3 {
+	display:block;
+	width: 40px;
+	height:40px;
+	background: url(bug.png) no-repeat top left;
+	position:absolute;
+	top:100px;
+	left:100px;
+}
+#bee2{
+	background-size:30px;
+}
+#bee3{
+	background-size:20px;
+}
+#bulb {
+	display:block;
+	width: 10px;
+	height:10px;
+	background:#F7412D;
+	opacity:1;
+	position:absolute;
+	top:100px;
+	left:100px;
+	border-radius:40px;
+}
+#arrow {
+	width: 100px;
+	height:100px;
+	background: url(arrow.svg) no-repeat 0 0;
+	background-size: 100% auto;
+	position:absolute;
+	top:100px;
+	left:800px;
+}
+#info {
+	width: 400px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	/*display:none;*/
+}
+</style>
+</head>
+
+<body>
+<div id="bee"></div>
+<div id="bee2"></div>
+<div id="bee3"></div>
+<div id="bulb"></div>
+<div id="arrow"></div>
+
+<pre id="info">
+<h2>Calculate basic trigonometric functions:</h2>
+sine of angle = opposite / hypotenuse
+cosine of angle = adjacent / hypotenuse
+tangent of angle = opposite / adjacent
+
+<h2>Convert radians to degrees and degrees to radians:</h2>
+radians = degrees * Math.PI / 180
+degrees = radians * 180 / Math.PI
+
+<h2>Rotate to the mouse (or any point):</h2>
+// substitute mouseX, mouseY with the x, y point to rotate to
+dx = mouseX - sprite.x;
+dy = mouseY - sprite.y;
+sprite.rotation = Math.atan2(dy, dx) * 180 / Math.PI;
+
+<h2>Create waves:</h2>
+// assign value to x, y or other property of sprite or movie clip,
+// use as drawing coordinates, etc.
+public function onEnterFrame(event:Event){
+value = center + Math.sin(angle) * range;
+angle += speed;
+}
+
+<h2>Create circles:</h2>
+// assign position to x and y of sprite or movie clip,
+// use as drawing coordinates, etc.
+public function onEnterFrame(event:Event){
+xposition = centerX + Math.cos(angle) * radius;
+yposition = centerY + Math.sin(angle) * radius;
+angle += speed;
+}
+
+<h2>Create ovals:</h2>
+// assign position to x and y of sprite or movie clip,
+// use as drawing coordinates, etc.
+public function onEnterFrame(event:Event){
+xposition = centerX + Math.cos(angle) * radiusX;
+yposition = centerY + Math.sin(angle) * radiusY;
+angle += speed;
+}
+
+<h2>Get the distance between two points:</h2>
+// points are x1, y1 and x2, y2
+// can be sprite / movie clip positions, mouse coordinates, etc.
+dx = x2 – x1;
+dy = y2 – y1;
+dist = Math.sqrt(dx*dx + dy*dy);
+</pre>
+
+
+<script type="text/javascript">
+var bee = document.getElementById("bee");
+var bee2 = document.getElementById("bee2");
+var bee3 = document.getElementById("bee3");
+var bulb = document.getElementById("bulb");
+var arrow = document.getElementById("arrow");
+var angleX = 0;
+var angleY = 0;
+var centerX = 500;
+var centerY = 500;
+var radius = 150;
+var speedX = .05;
+var speedY = .11;
+
+var arrow = {
+	id : document.getElementById("arrow"),
+	speed : 0.05
+};
+ 
+
+function init() {
+	document.addEventListener("mousemove", update, false); 
+	draw();
+	//alert(window.event.clientX);
+};
+
+function update(e){
+	centerX = e.clientX;
+	centerY = e.clientY;
+}
+
+function draw(e){
+
+	/* Bee */
+	bee.style.left = centerX + Math.sin(angleX) * radius + 'px';
+	bee.style.top = centerY + Math.sin(angleY) * radius + 'px';
+	
+	bee2.style.left = centerX + Math.cos(angleX) * radius + 'px';
+	bee2.style.top = centerY + Math.sin(angleX) * radius/2 + 'px';
+	
+	bee3.style.left = centerX + Math.cos(angleY+180) * radius/3 + 'px';
+	bee3.style.top = centerY + Math.sin(angleX+180) * radius/4 + 'px';
+	
+	/* Bulb */
+	bulb.style.opacity = Math.abs(Math.cos(angleX));
+	bulb.style.width = Math.abs(10 * Math.cos(angleX))+30 + 'px';
+	bulb.style.height = Math.abs(10 * Math.cos(angleX))+30 + 'px';
+	
+	/* Arrow - point at mouse cursor */
+	dx = centerX - arrow.id.offsetLeft;
+	dy = centerY - arrow.id.offsetTop;
+	pointAngle = Math.atan2(dy, dx);
+	arrow.id.style.webkitTransform = "rotate(" + pointAngle + "rad)"; arrow.id.style.MozTransform = "rotate(" + pointAngle + "rad)"; arrow.id.style.msTransform = "rotate(" + pointAngle + "rad)";
+	arrow.id.style.transform = "rotate(" + pointAngle + "rad)";
+	
+	// Move to follow mouse
+	//vx = Math.cos(pointAngle) * arrow.speed;
+	//vy = Math.sin(pointAngle) * arrow.speed;
+	//arrow.id.style.left = arrow.id.offsetLeft + vx + 'px';
+	//arrow.id.style.top = arrow.id.offsetTop + vy + 'px';
+
+	
+	angleX += speedX;
+	angleY += speedY;
+	requestAnimFrame(draw);
+};
+
+
+
+// shim layer with setTimeout fallback
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       || 
+          window.webkitRequestAnimationFrame || 
+          window.mozRequestAnimationFrame    || 
+          window.oRequestAnimationFrame      || 
+          window.msRequestAnimationFrame     || 
+          function(/* function */ callback, /* DOMElement */ element){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
+
+init();
+
+</script>
+</body>
+</html>
+
