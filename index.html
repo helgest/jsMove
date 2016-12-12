@@ -61,24 +61,9 @@ function draw(e){
 		arrow.id.style.transform = "translate(" + (mouseX - arrow.originX) + "px, " + (mouseY - arrow.originY) + "px) rotate(" + pointAngle + "rad)";
 		//arrow.id.style.transform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + pointAngle + "rad)";
 	}
-	
-	
-	//requestAnimFrame(draw);
+
 };
 
-
-
-// shim layer with setTimeout fallback
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       || 
-          window.webkitRequestAnimationFrame || 
-          window.mozRequestAnimationFrame    || 
-          window.oRequestAnimationFrame      || 
-          window.msRequestAnimationFrame     || 
-          function(/* function */ callback, /* DOMElement */ element){
-            window.setTimeout(callback, 1000 / 60);
-          };
-})();
 
 init();
 
