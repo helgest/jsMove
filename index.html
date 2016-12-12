@@ -10,12 +10,8 @@
 	background: url(arrow.svg) no-repeat 0 0;
 	background-size: 100%;
 	position:absolute;
-	-moz-transform-origin: 90px 51px;
-	-webkit-transform-origin: 90px 51px;
-	-ms-transform-origin: 90px 51px;
+	transform-origin: 90px 51px;
 	left:0px; top:0px;
-	-moz-transition-property: all;
- 	-moz-transition-duration: 1s;
 }
 </style>
 </head>
@@ -62,9 +58,8 @@ function draw(e){
 //	arrow.x += arrow.vx;
 //	arrow.y += arrow.vy;
 	if (Math.sqrt(dx*dx+dy*dy)>arrow.speed) {
-		arrow.id.style.MozTransform = "translate(" + (mouseX - arrow.originX) + "px, " + (mouseY - arrow.originY) + "px) rotate(" + pointAngle + "rad)";
-		arrow.id.style.webkitTransform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + pointAngle + "rad)";
-		arrow.id.style.msTransform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + pointAngle + "rad)";
+		//arrow.id.style.transform = "translate(" + (mouseX - arrow.originX) + "px, " + (mouseY - arrow.originY) + "px) rotate(" + pointAngle + "rad)";
+		arrow.id.style.transform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + pointAngle + "rad)";
 	}
 	//arrow.id.style.MozTransform = "rotate(" + pointAngle + "rad)";
 	
