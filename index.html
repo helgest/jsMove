@@ -41,7 +41,8 @@ var arrow = {
 	x : 0,
 	y : 0,
 	vx : 0,
-	vy : 0
+	vy : 0, 
+	pointAngle: 0
 };
 var bug = {
 	id : document.getElementById("bug"),
@@ -51,7 +52,8 @@ var bug = {
 	x : 0,
 	y : 0,
 	vx : 0,
-	vy : 0
+	vy : 0,
+	pointAngle : 0
 };
  
 
@@ -64,8 +66,8 @@ function draw(e){
 	mouseY = e.clientY;
 	
 	// Move bug to follow mouse
-	bug.vx = Math.cos(pointAngle) * bug.speed;
-	bug.vy = Math.sin(pointAngle) * bug.speed;
+	bug.vx = Math.cos(bug.pointAngle) * bug.speed;
+	bug.vy = Math.sin(bug.pointAngle) * bug.speed;
 	bug.x += bug.vx;
 	bug.y += bug.vy;
 	bug.id.style.transform = "translate(" + (mouseX - bug.originX) + "px, " + (mouseY - bug.originY) + "px)";
@@ -73,9 +75,9 @@ function draw(e){
 	/* Arrow - point at mouse cursor */
 	dx = mouseX - arrow.x - arrow.originX;
 	dy = mouseY - arrow.y - arrow.originY;
-	pointAngle = Math.atan2(dy, dx);
+	arrow.pointAngle = Math.atan2(dy, dx);
 	if (Math.sqrt(dx*dx+dy*dy)>arrow.speed) {
-		arrow.id.style.transform = "translate(" + (mouseX - arrow.originX) + "px, " + (mouseY - arrow.originY) + "px) rotate(" + pointAngle + "rad)";
+		arrow.id.style.transform = "translate(" + (mouseX - arrow.originX) + "px, " + (mouseY - arrow.originY) + "px) rotate(" + arrow.pointAngle + "rad)";
 		//arrow.id.style.transform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + pointAngle + "rad)";
 	}
 
