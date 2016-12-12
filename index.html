@@ -36,16 +36,12 @@ var arrow = {
  
 
 function init() {
-	document.addEventListener("mousemove", update, false); 
+	document.addEventListener("mousemove", draw, false); 
 };
 
-function update(e){
+function draw(e){
 	mouseX = e.clientX;
 	mouseY = e.clientY;
-	draw();
-}
-
-function draw(e){
 
 	/* Arrow - point at mouse cursor */
 	dx = mouseX - arrow.x - arrow.originX;
