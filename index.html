@@ -70,7 +70,7 @@ function draw(e){
 	bug.vy = Math.sin(bug.pointAngle) * bug.speed;
 	bug.x += bug.vx;
 	bug.y += bug.vy;
-	bug.id.style.transform = "translate(" + mouseX + "px, " + mouseY + "px) rotate(" + bug.pointAngle + "rad)";
+	bug.id.style.transform = "translate(" + mouseX + "px, "300px) rotate(" + bug.pointAngle + "rad)";
 	
 	/* Arrow - point at mouse cursor */
 	dx = mouseX - arrow.x - arrow.originX;
