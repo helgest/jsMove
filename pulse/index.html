@@ -13,13 +13,10 @@ h2 {
   margin:0;
 }
 #bee, #bee2, #bee3 {
-	display:block;
 	width: 40px;
 	height:40px;
 	background: url(http://helgest.github.io/jsMove/pulse/bug.png) no-repeat top left;
 	position:absolute;
-	top:100px;
-	left:100px;
 }
 #bee2{
 	background-size:30px;
@@ -115,52 +112,42 @@ dist = Math.sqrt(dx*dx + dy*dy);
 
 
 <script type="text/javascript">
-var bulb = document.getElementById("bulb");
+var mouseX;
+var mouseY;
+var i = 0;
 
-var mouseX = 500;
-var mouseY = 500;
-var ix = 0;
-var iy = 0;
-
-var radius = 150;
 var bee = {
   id1: document.getElementById("bee"),
   id2: document.getElementById("bee2"),
   id3: document.getElementById("bee3"),
+  radius: 150
 };
 
 var arrow = {
 	id : document.getElementById("arrow"),
-	speed : 0.05, 
   dx: 0,
   dy: 0,
-  pointAngle: 0,
-  speedX: 0.05,
-  speedY: 0.11,
-  angleX: 0,
-  angleY: 0
+  pointAngle: 0
 };
- 
 
+var bulb = {
+  id: document.getElementById("bulb")
+}
 
 function update(e){
 	mouseX = e.clientX;
 	mouseY = e.clientY;
 }
+
 function draw(e){
 	/* Bees */
-	bee.id1.style.left = mouseX + Math.sin(ix) * radius + 'px';
-	bee.id1.style.top = mouseY + Math.sin(iy) * radius + 'px';
-	
-	bee.id2.style.left = mouseX + Math.cos(ix) * radius + 'px';
-	bee.id2.style.top = mouseY + Math.sin(ix) * radius/2 + 'px';
-	
-	bee.id3.style.left = mouseX + Math.cos(iy+180) * radius/3 + 'px';
-	bee.id3.style.top = mouseY + Math.sin(ix+180) * radius/4 + 'px';
-	
+	bee.id1.style.transform = "translate(" + (mouseX + Math.sin(i) * bee.radius) + "px, " + (mouseY + Math.sin(i*2) * bee.radius) + "px)";
+	bee.id2.style.transform = "translate(" + (mouseX + Math.cos(i) * bee.radius) + "px, " + (mouseY + Math.sin(i) * bee.radius/2) + "px)";
+	bee.id3.style.transform = "translate(" + (mouseX + Math.cos(i*2+180) * bee.radius/3) + "px, " + (mouseY + Math.sin(i+180) * bee.radius/4) + "px)";
+  
 	/* Bulb */
-	bulb.style.opacity = Math.abs(Math.cos(ix));
-	bulb.style.transform = "translate(30px, " + Math.abs(Math.cos(ix))*10 + "px)";
+	bulb.id.style.opacity = Math.abs(Math.cos(i));
+	bulb.id.style.transform = "translate(30px, " + Math.abs(Math.cos(i))*10 + "px)";
   
 	/* Arrow - point at mouse cursor */
 	arrow.dx = mouseX - arrow.id.offsetLeft;
@@ -168,9 +155,7 @@ function draw(e){
 	arrow.pointAngle = Math.atan2(arrow.dy, arrow.dx);
 	arrow.id.style.transform = "rotate(" + arrow.pointAngle + "rad)";
 	
-  ix += 0.05;
-  iy += 0.11;
-  
+  i += 0.05;
   window.requestAnimationFrame(draw);
 }
 
